@@ -1,1 +1,59 @@
-<p>home works!</p>
+<section class="hero">
+  <p class="eyebrow">Hi, I'm</p>
+  <h1>Charl</h1>
+  <h2>Cybersecurity · Penetration Testing · Blue Team</h2>
+  <p class="intro">Replace this with one specific sentence about what you do.</p>
+  <div class="actions">
+    <a routerLink="/about" class="btn btn-primary">About me</a>
+    <a routerLink="/contact" class="btn btn-outline">Get in touch</a>
+  </div>
+</section>
+
+<section class="currently">
+  @for (item of currently; track item.label) {
+    <div>
+      <span class="label">{{ item.label }}</span>
+      <span>{{ item.value }}</span>
+    </div>
+  }
+</section>
+
+@if (featured().length) {
+  <section>
+    <h2 class="section-title">featured project</h2>
+    <div class="project-grid">
+      @for (project of featured(); track project.slug) {
+        <article class="card project">
+          <h3>{{ project.title }}</h3>
+          <p>{{ project.summary }}</p>
+          <ul class="tags">
+            @for (tag of project.tags; track tag) { <li>{{ tag }}</li> }
+          </ul>
+          @if (project.repo) {
+            <a [href]="project.repo" target="_blank" rel="noopener">View on GitHub →</a>
+          }
+        </article>
+      }
+    </div>
+  </section>
+}
+
+@if (recentWriteups().length) {
+  <section>
+    <h2 class="section-title">recent writeups</h2>
+    <ul class="writeup-list">
+      @for (w of recentWriteups(); track w.slug) {
+        <li>
+          <span class="date">{{ w.date | date: 'MMM yyyy' : 'UTC' }}</span>
+          <a [routerLink]="['/writeups', w.slug]">{{ w.title }}</a>
+          <span class="writeup-tags">{{ w.tags.join(' · ') }}</span>
+        </li>
+      }
+    </ul>
+  </section>
+}
+
+<section class="cta">
+  <p>Want to work together or talk security?</p>
+  <a routerLink="/contact" class="btn btn-primary">Get in touch</a>
+</section>

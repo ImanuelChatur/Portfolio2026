@@ -1,0 +1,55 @@
+:host { display: block; }
+
+section { margin-bottom: 3.5rem; }
+
+.bio {
+  max-width: 700px;
+  color: var(--text-muted);
+  font-size: 1.05rem;
+}
+
+.skills-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.25rem;
+}
+
+.card h3 {
+  font-family: var(--font-mono);
+  font-size: 1rem;
+  color: var(--accent);
+}
+
+.tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.tags li {
+  font-family: var(--font-mono);
+  font-size: 0.8rem;
+  padding: 0.25rem 0.65rem;
+  border-radius: 999px;
+  background: var(--accent-dim);
+  color: var(--accent);
+}
+
+.certs {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.certs li {
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.certs .mono {
+  color: var(--accent);
+  margin-right: 1rem;
+}

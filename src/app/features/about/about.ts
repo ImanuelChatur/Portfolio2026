@@ -1,9 +1,12 @@
 import { Component } from '@angular/core';
+import { SKILL_GROUPS, CERTS } from '../../data/about';
 
 @Component({
-  imports: [],
   selector: 'app-about',
-  styleUrl: './about.css',
   templateUrl: './about.html',
+  styleUrl: './about.css'
 })
-export class About {}
+export class About {
+  skillGroups = SKILL_GROUPS;
+  certs = CERTS;
+}
