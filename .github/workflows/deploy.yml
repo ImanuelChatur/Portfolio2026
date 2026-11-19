@@ -34,7 +34,7 @@ jobs:
       - run: npm ci
 
       # Fetches projects/writeups from GitHub (build time only), builds the content index,
-      # builds with base href /Portfolio2026/, and writes per-route HTML + the 404.html fallback.
+      # prerenders every route with base href /Portfolio2026/, and writes the 404.html fallback.
       # CI=true makes any GitHub fetch error fail the build, so an empty site never ships.
       # The default GITHUB_TOKEN only reads public repos; it is never written to the output.
       - run: npm run build:pages

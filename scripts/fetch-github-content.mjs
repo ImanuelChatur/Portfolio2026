@@ -295,14 +295,29 @@ async function mergeLocal(type) {
   const src = path.join(LOCAL, type);
   const dest = path.join(OUT, type);
   if (!existsSync(src)) return;
+  // Unpublishable local files (drafts, missing front matter) are not copied at all, so a draft
+  // is not reachable by URL either. A local draft also hides a GitHub copy with the same slug.
+  const hidden = new Set();
   for (const entry of await readdir(src, { withFileTypes: true })) {
     if (entry.isFile() && entry.name.endsWith('.md')) {
       const slug = entry.name.replace(/\.md$/, '');
       if (existsSync(path.join(dest, entry.name))) debug(`local ${type}/${entry.name} overrides GitHub copy`);
       await rm(path.join(dest, slug), { recursive: true, force: true }); // drop GitHub assets for that slug
+      if (!isPublishable(matter(await readFile(path.join(src, entry.name), 'utf8')).data)) {
+        debug(`skip local ${type}/${entry.name}: no front matter / missing fields / draft`);
+        await rm(path.join(dest, entry.name), { force: true });
+        hidden.add(slug);
+      }
     }
   }
-  await cp(src, dest, { recursive: true, force: true });
+  await cp(src, dest, {
+    recursive: true,
+    force: true,
+    filter: file => {
+      const [top] = path.relative(src, file).split(path.sep);
+      return !hidden.has(top.replace(/\.md$/, ''));
+    }
+  });
 }
 
 async function assertNoTokens(dir) {

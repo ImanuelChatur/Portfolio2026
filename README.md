@@ -20,12 +20,19 @@ to GitHub, not editing this repo. The browser never calls the GitHub API and no 
                <slug>.md, <slug>/ assets, index.json  <- scripts/build-content-index.mjs
                             |
                     Angular app loads content/...
+                            |
+        ng build prerenders every route + slug to static HTML  (src/app/app.routes.server.ts)
 ```
 
 - Configuration: `content.config.json` (GitHub user, writeups repo/branch/path, project topics, body file).
 - Every successful fetch is saved to `.cache/github-content/`. When GitHub can't be reached locally, the
   last good copy is used (or local content only), so `npm start` works offline.
 - In CI (`CI` set), any GitHub error fails the build, except a 404 for the writeups repo, which only warns.
+- Hand-written files in `content/` follow the same rules: a draft or a file without the required front
+  matter is not copied at all (not even reachable by URL). Reference their images as
+  `content/<type>/<slug>/<file>`.
+- Every page is prerendered at build time (Angular `outputMode: "static"`), so each project and writeup
+  ships as real HTML and the app hydrates it. Adding content needs a rebuild, which the deploy workflow does.
 - Before finishing, the script refuses to write anything under `public/content/` that looks like a GitHub token.
 
 ## Writeups
@@ -77,7 +84,8 @@ and is never logged or written to disk. `CONTENT_DEBUG=1` lists skipped writeup 
 ## Deploy
 
 GitHub Pages with **Settings > Pages > Source = GitHub Actions**. `.github/workflows/deploy.yml` runs
-`npm run build:pages` (content, production build with base href `/Portfolio2026/`, route copies for deep links).
+`npm run build:pages` (content, prerendered production build with base href `/Portfolio2026/`, then
+`scripts/pages-routes.mjs` writes `404.html` from the client-only shell so unknown paths still boot the app).
 
 To rebuild the site when the writeups repo changes, add this workflow there as
 `.github/workflows/notify-portfolio.yml`:
