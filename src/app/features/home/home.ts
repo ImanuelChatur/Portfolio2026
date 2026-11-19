@@ -5,15 +5,10 @@ import { MatButton } from '@angular/material/button';
 import { MatCard } from '@angular/material/card';
 import { MatIcon } from '@angular/material/icon';
 import { MatProgressBar } from '@angular/material/progress-bar';
-import { MatList, MatListItem, MatListItemLine, MatListItemMeta, MatListItemTitle } from '@angular/material/list';
+import { MatListItem, MatListItemLine, MatListItemMeta, MatListItemTitle, MatNavList } from '@angular/material/list';
 import { Content } from '../../core/services/content';
-import { CURRENTLY, PROJECT_CLASS, SUBJECT_RECORD } from '../../data/home';
-
-const CLASS_ORDER = Object.keys(PROJECT_CLASS);
-const rank = (slug: string) => {
-  const i = CLASS_ORDER.indexOf(slug);
-  return i === -1 ? CLASS_ORDER.length : i;
-};
+import { CURRENTLY, SUBJECT_RECORD } from '../../data/home';
+import { toRecords } from '../content/records';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +19,7 @@ const rank = (slug: string) => {
     MatCard,
     MatIcon,
     MatProgressBar,
-    MatList,
+    MatNavList,
     MatListItem,
     MatListItemTitle,
     MatListItemLine,
@@ -40,20 +35,13 @@ export class Home {
   protected readonly profile = SUBJECT_RECORD;
   protected readonly projects = this.content.projects;
 
+  // IDs and area come from the shared record helper so they match the Projects page.
   protected readonly featured = computed(() =>
     this.projects.hasValue()
-      ? this.projects
-          .value()
+      ? toRecords('projects', this.projects.value())
           .filter(p => p.featured)
-          // AI security leads (positioning); unmapped projects keep index order after.
-          .sort((a, b) => rank(a.slug) - rank(b.slug))
           .slice(0, 3)
-          .map((p, i) => ({
-            ...p,
-            id: `PRJ-${String(i + 1).padStart(3, '0')}`,
-            area: PROJECT_CLASS[p.slug] ?? null,
-            tags: p.tags.slice(0, 4)
-          }))
+          .map(p => ({ ...p, tags: p.tags.slice(0, 4) }))
       : []
   );
 

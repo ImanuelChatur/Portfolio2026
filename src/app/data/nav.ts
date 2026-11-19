@@ -4,9 +4,10 @@ export interface NavLink {
   exact?: boolean;
 }
 
-// Projects and Writeups join this list when their pages exist (content handoff).
 export const NAV_LINKS: NavLink[] = [
   { label: 'Home', path: '/', exact: true },
+  { label: 'Projects', path: '/projects' },
+  { label: 'Writeups', path: '/writeups' },
   { label: 'About', path: '/about' },
   { label: 'Contact', path: '/contact' }
 ];

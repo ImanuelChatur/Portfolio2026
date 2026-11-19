@@ -10,7 +10,10 @@ for (const type of TYPES) {
   const dir = path.join(ROOT, type);
   await mkdir(dir, { recursive: true });
 
-  const files = (await readdir(dir)).filter(f => f.endsWith('.md'));
+  // Only *.md at the type root; subfolders hold a writeup's assets.
+  const files = (await readdir(dir, { withFileTypes: true }))
+    .filter(e => e.isFile() && e.name.endsWith('.md'))
+    .map(e => e.name);
   const items = [];
 
   for (const file of files) {

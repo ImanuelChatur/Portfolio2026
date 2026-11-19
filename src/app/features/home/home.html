@@ -53,9 +53,12 @@
   <mat-card appearance="outlined" class="pane" role="region" aria-labelledby="projects-title">
     <header class="pane-head">
       <h2 id="projects-title">Projects</h2>
-      @if (featured().length) {
-        <span>{{ featured().length }} records</span>
-      }
+      <span class="head-meta">
+        @if (featured().length) {
+          <span>{{ featured().length }} featured</span>
+        }
+        <a class="head-link" routerLink="/projects">All projects</a>
+      </span>
     </header>
 
     @if (projects.isLoading()) {
@@ -83,7 +86,6 @@
         </thead>
         <tbody>
           @for (project of featured(); track project.slug) {
-            <!-- TODO(content-handoff): link to /projects/<slug> once project detail pages exist. -->
             <tr>
               <th scope="row" class="c-id mono">{{ project.id }}</th>
               <td class="c-area">
@@ -92,7 +94,7 @@
                 }
               </td>
               <td class="c-target">
-                <h3>{{ project.title }}</h3>
+                <h3><a class="row-link" [routerLink]="['/projects', project.slug]">{{ project.title }}</a></h3>
                 <p class="muted">{{ project.summary }}</p>
               </td>
               <td class="c-stack">
@@ -116,17 +118,17 @@
     <section class="pane" aria-labelledby="writeups-title">
       <header class="pane-head">
         <h2 id="writeups-title">Writeups</h2>
+        <a class="head-link" routerLink="/writeups">All writeups</a>
       </header>
-      <!-- TODO(content-handoff): link rows to /writeups/<slug> once writeup detail pages exist. -->
-      <mat-list class="log">
+      <mat-nav-list class="log" aria-labelledby="writeups-title">
         @for (w of recentWriteups(); track w.slug) {
-          <mat-list-item lines="2">
+          <a mat-list-item lines="2" [routerLink]="['/writeups', w.slug]">
             <span matListItemTitle class="log-title">{{ w.title }}</span>
             <span matListItemLine>{{ w.summary }}</span>
             <span matListItemMeta class="mono">{{ w.date | date: 'yyyy-MM' : 'UTC' }}</span>
-          </mat-list-item>
+          </a>
         }
-      </mat-list>
+      </mat-nav-list>
     </section>
   }
 </div>

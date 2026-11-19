@@ -1,0 +1,5 @@
+{
+  "githubUser": "imanuelchatur",
+  "writeups": { "repo": "writeups", "branch": "main", "path": "" },
+  "projects": { "topic": "portfolio", "featuredTopic": "featured", "bodyFile": "PORTFOLIO.md" }
+}

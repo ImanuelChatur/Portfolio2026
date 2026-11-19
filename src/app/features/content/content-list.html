@@ -1,0 +1,124 @@
+<div class="wrap stack">
+  <header class="intro">
+    <h1 id="list-title">{{ label().plural }}</h1>
+    <p class="lead">{{ intro() }}</p>
+  </header>
+
+  <section class="pane" aria-labelledby="index-title">
+    <header class="pane-head">
+      <h2 id="index-title">Index</h2>
+      @if (records().length) {
+        <span>
+          @if (tag()) {
+            {{ visible().length }} of
+          }
+          {{ records().length }} records
+        </span>
+      }
+    </header>
+
+    @let idx = index();
+    @if (idx.isLoading()) {
+      <mat-progress-bar mode="indeterminate" [attr.aria-label]="'Loading ' + type()" />
+    } @else if (idx.error()) {
+      <div class="state" role="alert">
+        <mat-icon class="state-icon" aria-hidden="true">error</mat-icon>
+        <p>The {{ type() }} index did not load. Check your connection and try again.</p>
+        <button matButton="outlined" type="button" (click)="retry()">
+          <mat-icon aria-hidden="true">refresh</mat-icon>
+          Retry
+        </button>
+      </div>
+    } @else if (!records().length) {
+      <p class="state muted">No {{ type() }} published yet.</p>
+    } @else {
+      @if (tags().length > 1) {
+        <div class="filter">
+          <span class="filter-label mono caps muted" aria-hidden="true">Tag</span>
+          <mat-chip-listbox
+            [attr.aria-label]="'Filter ' + type() + ' by tag'"
+            hideSingleSelectionIndicator
+            (change)="onFilter($event)"
+          >
+            <mat-chip-option value="" [selected]="tag() === ''" [selectable]="tag() !== ''">All</mat-chip-option>
+            @for (t of tags(); track t) {
+              <mat-chip-option [value]="t" [selected]="tag() === t">{{ t }}</mat-chip-option>
+            }
+          </mat-chip-listbox>
+        </div>
+      }
+
+      <table class="records" [class.is-writeups]="type() === 'writeups'">
+        <caption class="visually-hidden">{{ caption() }}</caption>
+        <thead>
+          <tr class="mono caps muted">
+            @if (type() === 'projects') {
+              <th scope="col">ID</th>
+              @if (hasArea()) {
+                <th scope="col">Area</th>
+              }
+              <th scope="col">Target</th>
+              <th scope="col">Stack</th>
+              @if (hasStars()) {
+                <th scope="col" class="num">Stars</th>
+              }
+              <th scope="col">Date</th>
+            } @else {
+              <th scope="col">Date</th>
+              <th scope="col">Title</th>
+              <th scope="col">Tags</th>
+            }
+          </tr>
+        </thead>
+        <tbody>
+          @for (r of visible(); track r.slug) {
+            <tr>
+              @if (r.id) {
+                <td class="c-id mono">{{ r.id }}</td>
+              }
+              @if (hasArea()) {
+                <td class="c-area">
+                  @if (r.area; as area) {
+                    <span class="area" [class]="area.cls">{{ area.label }}</span>
+                  }
+                </td>
+              }
+              @if (type() === 'writeups') {
+                <td class="c-date mono">
+                  <time [attr.datetime]="r.date">{{ r.date | date: dateFormat() : 'UTC' }}</time>
+                </td>
+              }
+              <td class="c-title">
+                <h3>
+                  <a class="row-link" [routerLink]="['/', type(), r.slug]">{{ r.title }}</a>
+                </h3>
+                <p class="muted">{{ r.summary }}</p>
+              </td>
+              <td class="c-tags">
+                @if (r.tags.length) {
+                  <ul class="tag-line" [attr.aria-label]="type() === 'projects' ? 'Stack' : 'Tags'">
+                    @for (t of r.tags; track t) {
+                      <li>{{ t }}</li>
+                    }
+                  </ul>
+                }
+              </td>
+              @if (hasStars()) {
+                <td class="c-stars mono num">
+                  @if (r.stars != null) {
+                    {{ r.stars }}<span class="visually-hidden"> stars</span>
+                  }
+                </td>
+              }
+              @if (type() === 'projects') {
+                <td class="c-date mono">
+                  <time [attr.datetime]="r.date">{{ r.date | date: dateFormat() : 'UTC' }}</time>
+                </td>
+              }
+            </tr>
+          }
+        </tbody>
+      </table>
+    }
+  </section>
+</div>

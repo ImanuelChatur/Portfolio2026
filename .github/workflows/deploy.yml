@@ -2,8 +2,14 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [master]
+    branches: [master, main]
   workflow_dispatch:
+  # Sent by the writeups repo on push (see README: "Rebuild when writeups change").
+  repository_dispatch:
+    types: [content-updated]
+  # Daily, so newly tagged `portfolio` repos appear without a push here.
+  schedule:
+    - cron: '17 7 * * *'
 
 permissions:
   contents: read
@@ -27,9 +33,17 @@ jobs:
 
       - run: npm ci
 
-      # Regenerates public/content/*/index.json, builds with base href /Portfolio2026/,
-      # and copies index.html to 404.html as the SPA fallback for deep links.
+      # Fetches projects/writeups from GitHub (build time only), builds the content index,
+      # builds with base href /Portfolio2026/, and writes per-route HTML + the 404.html fallback.
+      # CI=true makes any GitHub fetch error fail the build, so an empty site never ships.
+      # The default GITHUB_TOKEN only reads public repos; it is never written to the output.
       - run: npm run build:pages
+        env:
+          CI: true
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Check no token leaked into the build
+        run: '! grep -rE "ghp_|github_pat_|ghs_" dist/Portfolio2026/browser'
 
       - uses: actions/upload-pages-artifact@v3
         with:

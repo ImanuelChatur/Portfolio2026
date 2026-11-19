@@ -1,0 +1,157 @@
+:host {
+  display: block;
+}
+
+.detail {
+  position: relative;
+  padding-top: var(--space-5);
+  row-gap: var(--space-6);
+}
+
+// Scrolled past 120vh of page = long enough to offer back-to-top.
+.sentinel {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 1px;
+  height: 120vh;
+  pointer-events: none;
+}
+
+.back {
+  justify-self: start;
+  margin-left: calc(-1 * var(--space-3));
+}
+
+// The subset has no arrow_back; mirror arrow_forward.
+.back-icon {
+  transform: scaleX(-1);
+}
+
+.intro {
+  h1 {
+    margin-bottom: var(--space-4);
+    font-size: clamp(1.875rem, 4vw, 2.75rem);
+    line-height: 1.1;
+    letter-spacing: -0.025em;
+    max-width: 30ch;
+
+    &:focus {
+      outline: none;
+    }
+  }
+}
+
+.lead {
+  max-width: 64ch;
+  margin: 0;
+  font-size: 1.0625rem;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+// ---------- Body + record ----------
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(16rem, 20rem);
+  gap: var(--space-5);
+  align-items: start;
+}
+
+.body {
+  grid-column: 1;
+  grid-row: 1;
+}
+
+.record {
+  grid-column: 2;
+  position: sticky;
+  top: var(--space-5);
+
+  .kv > div {
+    grid-template-columns: 4.5rem minmax(0, 1fr);
+  }
+}
+
+.actions {
+  display: grid;
+  gap: var(--space-2);
+  padding: var(--space-4);
+  border-top: 1px solid var(--mat-sys-outline);
+
+  a {
+    justify-content: flex-start;
+  }
+}
+
+// ---------- States ----------
+.state-title {
+  font-size: inherit;
+  letter-spacing: inherit;
+  line-height: 1.4;
+  color: var(--mat-sys-on-surface);
+}
+
+.state {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-5) var(--space-4);
+
+  p {
+    margin: 0;
+    flex: 1 1 28ch;
+  }
+}
+
+.state-icon {
+  color: var(--mat-sys-error);
+}
+
+.slug {
+  font-size: var(--site-data-size);
+  overflow-wrap: anywhere;
+}
+
+// ---------- Back to top ----------
+.to-top {
+  position: fixed;
+  right: var(--site-gutter);
+  bottom: var(--space-6);
+  z-index: 5;
+}
+
+@media (max-width: 959.98px) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr);
+  }
+
+  .body,
+  .record {
+    grid-column: 1;
+    grid-row: auto;
+  }
+
+  .record {
+    position: static;
+
+    .kv > div {
+      grid-template-columns: minmax(5rem, 9rem) minmax(0, 1fr);
+    }
+  }
+
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
+
+@media (max-width: 479.98px) {
+  .record .kv > div {
+    grid-template-columns: 1fr;
+  }
+
+  .actions a {
+    flex: 1 1 100%;
+  }
+}

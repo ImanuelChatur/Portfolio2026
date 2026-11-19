@@ -1,0 +1,147 @@
+<div class="wrap stack detail">
+  <div class="sentinel" #sentinel aria-hidden="true"></div>
+
+  <a matButton class="back" [routerLink]="['/', type()]">
+    <mat-icon class="back-icon" aria-hidden="true">arrow_forward</mat-icon>
+    All {{ type() }}
+  </a>
+
+  @let idx = index();
+  @if (idx.isLoading()) {
+    <mat-progress-bar mode="indeterminate" [attr.aria-label]="'Loading ' + label().singular" />
+  } @else if (idx.error()) {
+    <section class="pane" aria-labelledby="state-title">
+      <header class="pane-head">
+        <h1 id="state-title" class="state-title">Load error</h1>
+      </header>
+      <div class="state" role="alert">
+        <mat-icon class="state-icon" aria-hidden="true">error</mat-icon>
+        <p>The {{ type() }} index did not load. Check your connection and try again.</p>
+        <button matButton="outlined" type="button" (click)="retryIndex()">
+          <mat-icon aria-hidden="true">refresh</mat-icon>
+          Retry
+        </button>
+      </div>
+    </section>
+  } @else if (notFound()) {
+    <section class="pane" aria-labelledby="state-title">
+      <header class="pane-head">
+        <h1 id="state-title" class="state-title">Not found</h1>
+        <span>404</span>
+      </header>
+      <div class="state">
+        <mat-icon class="state-icon" aria-hidden="true">error</mat-icon>
+        <p>
+          There is no {{ label().singular }} at <code class="slug">{{ slug() }}</code>. It may have been renamed or
+          unpublished.
+        </p>
+        <a matButton="outlined" [routerLink]="['/', type()]">Browse all {{ type() }}</a>
+      </div>
+    </section>
+  } @else if (meta(); as m) {
+    <header class="intro">
+      <h1 #heading tabindex="-1">{{ m.title }}</h1>
+      <p class="lead">{{ m.summary }}</p>
+    </header>
+
+    <div class="layout">
+      <aside class="pane record" aria-labelledby="record-title">
+        <header class="pane-head">
+          <h2 id="record-title">Record</h2>
+          @if (m.area; as area) {
+            <span class="area" [class]="area.cls">{{ area.label }}</span>
+          }
+        </header>
+        <dl class="kv">
+          @if (m.id) {
+            <div>
+              <dt>ID</dt>
+              <dd class="mono">{{ m.id }}</dd>
+            </div>
+          }
+          <div>
+            <dt>Date</dt>
+            <dd class="mono">
+              <time [attr.datetime]="m.date">{{ m.date | date: dateFormat() : 'UTC' }}</time>
+            </dd>
+          </div>
+          @if (m.tags.length) {
+            <div>
+              <dt>{{ type() === 'projects' ? 'Stack' : 'Tags' }}</dt>
+              <dd>
+                <ul class="tag-line">
+                  @for (t of m.tags; track t) {
+                    <li>{{ t }}</li>
+                  }
+                </ul>
+              </dd>
+            </div>
+          }
+          @if (m.stars != null) {
+            <div>
+              <dt>Stars</dt>
+              <dd class="mono">{{ m.stars }}</dd>
+            </div>
+          }
+        </dl>
+        @if (m.repo || m.demo || m.source) {
+          <div class="actions">
+            @if (m.repo) {
+              <a matButton="outlined" [href]="m.repo" target="_blank" rel="noopener">
+                <mat-icon aria-hidden="true">code</mat-icon>
+                GitHub repo<span class="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            }
+            @if (m.demo) {
+              <a matButton="outlined" [href]="m.demo" target="_blank" rel="noopener">
+                <mat-icon aria-hidden="true">open_in_new</mat-icon>
+                Live demo<span class="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            }
+            @if (m.source) {
+              <a matButton="outlined" [href]="m.source" target="_blank" rel="noopener">
+                <mat-icon aria-hidden="true">code</mat-icon>
+                View source on GitHub<span class="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            }
+          </div>
+        }
+      </aside>
+
+      <article class="pane body" aria-labelledby="body-title">
+        <header class="pane-head">
+          <h2 id="body-title">{{ type() === 'projects' ? 'Case notes' : 'Walkthrough' }}</h2>
+          <span>{{ slug() }}.md</span>
+        </header>
+        @if (body.isLoading()) {
+          <mat-progress-bar mode="indeterminate" aria-label="Loading content" />
+        } @else if (body.error()) {
+          <div class="state" role="alert">
+            <mat-icon class="state-icon" aria-hidden="true">error</mat-icon>
+            <p>This {{ label().singular }} did not load. Check your connection and try again.</p>
+            <button matButton="outlined" type="button" (click)="retryBody()">
+              <mat-icon aria-hidden="true">refresh</mat-icon>
+              Retry
+            </button>
+          </div>
+        } @else {
+          <div #prose class="prose" [innerHTML]="html()"></div>
+        }
+      </article>
+    </div>
+  }
+
+  @if (showTop()) {
+    <button
+      matMiniFab
+      type="button"
+      class="to-top"
+      aria-label="Back to top"
+      matTooltip="Back to top"
+      matTooltipPosition="left"
+      (click)="scrollToTop()"
+    >
+      <mat-icon>arrow_upward</mat-icon>
+    </button>
+  }
+</div>

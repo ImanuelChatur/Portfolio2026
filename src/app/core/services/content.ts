@@ -7,6 +7,11 @@ export class Content {
   readonly projects = this.index('projects');
   readonly writeups = this.index('writeups');
 
+  /** The index resource for a content type (shared, loaded once per app). */
+  get(type: ContentType) {
+    return type === 'projects' ? this.projects : this.writeups;
+  }
+
   private index(type: ContentType) {
     return httpResource<ContentMeta[]>(() => `content/${type}/index.json`, { defaultValue: [] });
   }

@@ -1,8 +1,10 @@
 @use 'styles/tokens';
 @use 'styles/theme';
+@use 'styles/prose';
 
 @include tokens.apply;
 @include theme.apply;
+@include prose.apply;
 
 // ---------- Base elements ----------
 *,

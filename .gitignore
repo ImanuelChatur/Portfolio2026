@@ -43,7 +43,8 @@ __screenshots__/
 .DS_Store
 Thumbs.db
 
-public/content/*/index.json
+public/content/
+.cache/
 
 # Design exploration (local only)
 /design/

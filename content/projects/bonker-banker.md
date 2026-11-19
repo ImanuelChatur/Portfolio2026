@@ -4,6 +4,7 @@ date: 2026-11-01
 summary: A Flask web app that analyzes 1M+ transactions to estimate how long customers take to recover from financial shocks.
 tags: [Flask, Google Gemini, AWS EC2, Docker, Caddy]
 featured: true
+repo: https://github.com/ImanuelChatur/bonker-banker
 ---
 
 ## Overview

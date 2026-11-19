@@ -10,4 +10,6 @@ export interface ContentMeta {
   repo?: string;
   demo?: string;
   thumbnail?: string;
+  stars?: number;
+  source?: string;
 }

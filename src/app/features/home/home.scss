@@ -147,6 +147,50 @@ tbody tr {
   }
 }
 
+// Pane-head link: a 44px tap target that doesn't grow the 40px title bar.
+.head-meta {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.head-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  margin-block: -10px;
+  color: var(--site-link);
+}
+
+// The whole row is the link's hit area; the title stays the only interactive element.
+tbody tr {
+  position: relative;
+}
+
+.row-link {
+  color: inherit;
+  text-decoration: none;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      outline: 2px solid var(--site-focus);
+      outline-offset: -2px;
+    }
+  }
+}
+
+tbody tr:hover .row-link {
+  color: var(--mat-sys-primary);
+}
+
 .log-title {
   font-family: var(--site-font-mono);
   font-weight: 600;
