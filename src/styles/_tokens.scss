@@ -1,0 +1,58 @@
+// Site tokens not covered by --mat-sys-*. Colors that Material has no role for live here,
+// expressed with light-dark() so they follow the html color-scheme (system or data-theme).
+// Components use these via var(--site-*) and never hardcode colors.
+
+@mixin apply {
+  :root {
+    // Fonts
+    --site-font-body: 'IBM Plex Sans', 'Segoe UI', system-ui, sans-serif;
+    --site-font-mono: 'IBM Plex Mono', ui-monospace, 'Cascadia Mono', monospace;
+    --site-font-display: var(--site-font-mono);
+
+    // Extra color roles (see DESIGN.md palette)
+    --site-focus: light-dark(#00708a, #5cc8e0); // focus ring + inline links
+    --site-link: light-dark(#00708a, #5cc8e0);
+    --site-selection: light-dark(#cde6ee, #1d3a44);
+    --site-row-hover: var(--mat-sys-surface-container);
+
+    // Area classification colors (real attributes only, never invented severity)
+    --site-area-ai: light-dark(#b3261e, #ff7b6e);
+    --site-area-appsec: light-dark(#8a5a00, #f0b04a);
+    --site-area-crypto: light-dark(#1d5fa8, #7db8ff);
+
+    // Status indicator (availability)
+    --site-status: var(--mat-sys-primary);
+
+    // Shape
+    --site-radius: 2px;
+
+    // Spacing scale (4px base)
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-7: 32px;
+    --space-8: 48px;
+    --space-9: 64px;
+    --space-section: clamp(32px, 5vw, 56px);
+
+    // Layout
+    --site-max-width: 1200px;
+    --site-prose-width: 72ch;
+    --site-gutter: clamp(16px, 3vw, 40px);
+    --site-header-height: 64px;
+
+    // Type sizes not in the M3 typescale
+    --site-display-size: clamp(2.25rem, 5.2vw, 4rem);
+    --site-h2-size: 1.375rem;
+    --site-meta-size: 0.8125rem;
+    --site-data-size: 0.875rem;
+
+    // Motion
+    --site-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+    --site-duration-fast: 120ms;
+    --site-duration: 200ms;
+  }
+}

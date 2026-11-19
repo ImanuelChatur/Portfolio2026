@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
+import { RouterLink } from '@angular/router';
+import { NAV_LINKS, SOCIAL } from '../../../data/nav';
 
 @Component({
-  imports: [],
+  imports: [RouterLink],
   selector: 'app-footer',
-  styleUrl: './footer.css',
-  templateUrl: './footer.html',
+  styleUrl: './footer.scss',
+  templateUrl: './footer.html'
 })
-export class Footer {}
+export class Footer {
+  readonly links = NAV_LINKS.filter(l => l.path !== '/');
+  readonly social = SOCIAL;
+  readonly year = new Date().getFullYear();
+}

@@ -1,5 +1,48 @@
-<app-header/>
-<main>
-  <router-outlet />
-</main>
-<app-footer/>
+<a class="skip-link" href="#main" (click)="skipToMain($event)">Skip to content</a>
+
+<mat-sidenav-container class="shell" autosize>
+  <mat-sidenav
+    class="drawer"
+    mode="over"
+    position="end"
+    autoFocus="first-tabbable"
+    [opened]="isMobile() && menuOpen()"
+    (closedStart)="menuOpen.set(false)"
+  >
+    <div class="drawer-head">
+      <span class="mono caps muted">Navigation</span>
+      <button
+        matIconButton
+        type="button"
+        aria-label="Close menu"
+        matTooltip="Close menu"
+        (click)="menuOpen.set(false)"
+      >
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+    <mat-nav-list aria-label="Site">
+      @for (link of links; track link.path) {
+        <a
+          mat-list-item
+          [routerLink]="link.path"
+          routerLinkActive
+          #rla="routerLinkActive"
+          [routerLinkActiveOptions]="{ exact: !!link.exact }"
+          [activated]="rla.isActive"
+          ariaCurrentWhenActive="page"
+        >
+          {{ link.label }}
+        </a>
+      }
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav-content class="page">
+    <app-header [isMobile]="isMobile()" (menuOpened)="menuOpen.set(true)" />
+    <main id="main" tabindex="-1">
+      <router-outlet />
+    </main>
+    <app-footer />
+  </mat-sidenav-content>
+</mat-sidenav-container>

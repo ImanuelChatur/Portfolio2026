@@ -9,7 +9,11 @@
   "projects": {
     "Portfolio2026": {
       "projectType": "application",
-      "schematics": {},
+      "schematics": {
+        "@schematics/angular:component": {
+          "style": "scss"
+        }
+      },
       "root": "",
       "sourceRoot": "src",
       "prefix": "app",
@@ -23,10 +27,20 @@
               {
                 "glob": "**/*",
                 "input": "public"
+              },
+              {
+                "glob": "ibm-plex-sans-latin-{400,500,600}-normal.woff2",
+                "input": "node_modules/@fontsource/ibm-plex-sans/files",
+                "output": "fonts"
+              },
+              {
+                "glob": "ibm-plex-mono-latin-{400,500,600}-normal.woff2",
+                "input": "node_modules/@fontsource/ibm-plex-mono/files",
+                "output": "fonts"
               }
             ],
             "styles": [
-              "src/styles.css"
+              "src/styles.scss"
             ]
           },
           "configurations": {
@@ -34,7 +48,7 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
+                  "maximumWarning": "700kB",
                   "maximumError": "1MB"
                 },
                 {
@@ -49,6 +63,9 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "github-pages": {
+              "baseHref": "/Portfolio2026/"
             }
           },
           "defaultConfiguration": "production"

@@ -1,8 +1,51 @@
-<nav>
-  <a routerLink="/" class="logo">Imanuel</a>
-  <ul>
-    <li><a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{ exact: true }">Home</a></li>
-    <li><a routerLink="/about" routerLinkActive="active">About</a></li>
-    <li><a routerLink="/contact" routerLinkActive="active">Contact</a></li>
-  </ul>
-</nav>
+<mat-toolbar class="masthead">
+  <div class="wrap bar">
+    <a routerLink="/" class="brand">
+      <span class="brand-name">imanuel<span class="at">@</span>sec</span>
+      <span class="visually-hidden">, Imanuel Chatur, home</span>
+    </a>
+
+    <nav class="nav" aria-label="Site">
+      @if (!isMobile()) {
+        <ul>
+          @for (link of links; track link.path) {
+            <li>
+              <a
+                matButton
+                [routerLink]="link.path"
+                routerLinkActive="is-active"
+                [routerLinkActiveOptions]="{ exact: !!link.exact }"
+                ariaCurrentWhenActive="page"
+              >
+                {{ link.label }}
+              </a>
+            </li>
+          }
+        </ul>
+      }
+
+      @let dark = theme.isDark();
+      <button
+        matIconButton
+        type="button"
+        [attr.aria-label]="dark ? 'Switch to light theme' : 'Switch to dark theme'"
+        [matTooltip]="dark ? 'Light theme' : 'Dark theme'"
+        (click)="theme.toggle()"
+      >
+        <mat-icon>{{ dark ? 'light_mode' : 'dark_mode' }}</mat-icon>
+      </button>
+
+      @if (isMobile()) {
+        <button
+          matIconButton
+          type="button"
+          aria-label="Open menu"
+          matTooltip="Menu"
+          (click)="menuOpened.emit()"
+        >
+          <mat-icon>menu</mat-icon>
+        </button>
+      }
+    </nav>
+  </div>
+</mat-toolbar>

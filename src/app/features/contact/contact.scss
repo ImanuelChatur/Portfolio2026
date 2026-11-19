@@ -1,0 +1,126 @@
+:host {
+  display: block;
+}
+
+// Wide: message left, channels pane right. Narrow: stacked.
+.contact {
+  grid-template-columns: minmax(0, 5fr) minmax(0, 7fr);
+  align-items: start;
+  column-gap: var(--space-8);
+
+  @media (max-width: 959.98px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.intro h1 {
+  margin-bottom: var(--space-5);
+}
+
+.lead {
+  max-width: 46ch;
+  font-size: 1.0625rem;
+  margin-bottom: var(--space-6);
+}
+
+.channels {
+  padding: 0;
+  --mat-list-list-item-one-line-container-height: auto;
+  --mat-list-list-item-two-line-container-height: auto;
+  --mat-list-list-item-leading-icon-color: var(--mat-sys-on-surface-variant);
+}
+
+.channel {
+  min-height: 56px;
+  padding-inline: var(--space-4);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+  transition: background-color var(--site-duration-fast) var(--site-ease-out);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+
+  &:hover {
+    background: var(--site-row-hover);
+  }
+}
+
+.channels .channel-icon {
+  align-self: center;
+  margin: 0 var(--space-4) 0 0;
+}
+
+// Label column beside the value; stacks under 480px.
+.channel-text {
+  display: grid;
+  grid-template-columns: 6.5rem minmax(0, 1fr);
+  align-items: baseline;
+  gap: 2px var(--space-4);
+  padding-block: var(--space-3);
+  white-space: normal;
+
+  @media (max-width: 479.98px) {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+.channel-label {
+  line-height: 1.4;
+}
+
+// The whole row is the link's hit area; the copy button sits above it as its own target.
+.channel-link {
+  font-family: var(--site-font-mono);
+  font-size: var(--site-data-size);
+  line-height: 1.45;
+  overflow-wrap: anywhere;
+  color: var(--mat-sys-on-surface);
+  text-decoration: none;
+  pointer-events: auto;
+
+  &::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+  }
+
+  &:focus-visible {
+    outline: none;
+
+    &::after {
+      outline: 2px solid var(--site-focus);
+      outline-offset: -2px;
+    }
+  }
+}
+
+.channel:hover .channel-link {
+  color: var(--mat-sys-primary);
+}
+
+.channels .channel-meta {
+  align-self: center;
+  display: flex;
+  align-items: center;
+  margin-left: var(--space-3);
+}
+
+.channel-arrow {
+  width: 20px;
+  height: 20px;
+  font-size: 20px;
+  color: var(--mat-sys-on-surface-variant);
+  transition: transform var(--site-duration) var(--site-ease-out);
+}
+
+.channel:hover .channel-arrow {
+  color: var(--mat-sys-primary);
+  transform: translate(2px, -2px);
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  pointer-events: auto;
+  margin-right: calc(var(--space-2) * -1);
+}

@@ -1,0 +1,311 @@
+@use 'styles/tokens';
+@use 'styles/theme';
+
+@include tokens.apply;
+@include theme.apply;
+
+// ---------- Base elements ----------
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scrollbar-color: var(--mat-sys-outline) var(--mat-sys-surface);
+}
+
+body {
+  margin: 0;
+  min-height: 100dvh;
+  background: var(--mat-sys-surface);
+  color: var(--mat-sys-on-surface);
+  font-family: var(--site-font-body);
+  font-size: 1rem;
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--site-font-mono);
+  font-weight: 600;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--site-display-size);
+  line-height: 1.02;
+  letter-spacing: -0.035em;
+}
+
+h2 {
+  font-size: var(--site-h2-size);
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+h3 {
+  font-size: 1.0625rem;
+  line-height: 1.3;
+  letter-spacing: -0.005em;
+}
+
+p,
+li,
+dd {
+  text-wrap: pretty;
+}
+
+p {
+  margin: 0 0 var(--space-4);
+}
+
+a {
+  color: var(--site-link);
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+
+::selection {
+  background: var(--site-selection);
+  color: var(--mat-sys-on-surface);
+}
+
+// Plain elements get the same cyan focus ring Material components get.
+:focus-visible {
+  outline: 2px solid var(--site-focus);
+  outline-offset: 2px;
+  border-radius: var(--site-radius);
+}
+
+code,
+kbd,
+samp,
+pre {
+  font-family: var(--site-font-mono);
+}
+
+// ---------- Shared utilities ----------
+.wrap {
+  max-width: var(--site-max-width);
+  margin-inline: auto;
+  padding-inline: var(--site-gutter);
+}
+
+// Data voice: IDs, dates, keys, tags.
+.mono {
+  font-family: var(--site-font-mono);
+  font-size: var(--site-meta-size);
+  letter-spacing: 0.01em;
+  font-variant-numeric: tabular-nums;
+}
+
+.caps {
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.muted {
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+// Pane: the console's building block. An outlined panel with a mono title bar.
+//   <section class="pane"><header class="pane-head"><h2>Title</h2><span>meta</span></header> ... </section>
+// For the projects pane use <mat-card appearance="outlined" class="pane"> (card tokens match).
+.pane {
+  display: block;
+  background: var(--mat-sys-surface-container-low);
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: var(--site-radius);
+  overflow: hidden;
+}
+
+.pane-head {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-1) var(--space-4);
+  min-height: 40px;
+  padding: var(--space-2) var(--space-4);
+  background: var(--mat-sys-surface-container);
+  border-bottom: 1px solid var(--mat-sys-outline);
+  color: var(--mat-sys-on-surface-variant);
+  font-family: var(--site-font-mono);
+  font-size: var(--site-meta-size);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+
+  h2,
+  h3 {
+    font-size: inherit;
+    font-weight: 600;
+    letter-spacing: inherit;
+    line-height: 1.4;
+    color: var(--mat-sys-on-surface);
+  }
+}
+
+.pane-body {
+  padding: var(--space-4);
+}
+
+// Key/value table (profile, metadata). <dl class="kv"><div><dt/><dd/></div>...</dl>
+.kv {
+  margin: 0;
+
+  > div {
+    display: grid;
+    grid-template-columns: minmax(7rem, 11rem) minmax(0, 1fr);
+    gap: var(--space-4);
+    padding: 10px var(--space-4);
+    border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+    &:last-child {
+      border-bottom: 0;
+    }
+  }
+
+  dt {
+    color: var(--mat-sys-on-surface-variant);
+    font-family: var(--site-font-mono);
+    font-size: var(--site-meta-size);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    padding-top: 2px;
+  }
+
+  dd {
+    margin: 0;
+    font-size: var(--site-data-size);
+  }
+
+  @media (max-width: 479.98px) {
+    > div {
+      grid-template-columns: 1fr;
+      gap: 2px;
+    }
+  }
+}
+
+// Area label: a real classification, color-coded like severity. <span class="area area-ai">AI SEC</span>
+.area {
+  display: inline-block;
+  padding: 1px 6px;
+  border: 1px solid currentColor;
+  border-radius: var(--site-radius);
+  font-family: var(--site-font-mono);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  line-height: 1.5;
+  text-transform: uppercase;
+  white-space: nowrap;
+}
+
+.area-ai {
+  color: var(--site-area-ai);
+}
+
+.area-appsec {
+  color: var(--site-area-appsec);
+}
+
+.area-crypto {
+  color: var(--site-area-crypto);
+}
+
+// Availability indicator: a solid amber square + mono caps text.
+.status {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-family: var(--site-font-mono);
+  font-size: var(--site-meta-size);
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mat-sys-on-surface);
+
+  &::before {
+    content: '';
+    width: 8px;
+    height: 8px;
+    background: var(--site-status);
+    border-radius: 1px;
+  }
+}
+
+// Tags: plain mono text separated by slashes (no chips on items).
+.tag-line {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--space-1) 0;
+  color: var(--mat-sys-on-surface-variant);
+  font-family: var(--site-font-mono);
+  font-size: var(--site-meta-size);
+
+  li {
+    white-space: nowrap;
+  }
+
+  li:not(:last-child)::after {
+    content: '/';
+    margin-inline: var(--space-2);
+    color: var(--mat-sys-outline);
+  }
+}
+
+// Page stack: vertical rhythm between panes.
+.stack {
+  display: grid;
+  gap: var(--space-section);
+  padding-block: var(--space-section);
+}
+
+// Material Symbols: optical tuning for the variable icon font.
+.material-symbols-outlined {
+  font-variation-settings:
+    'FILL' 0,
+    'wght' 400,
+    'GRAD' 0,
+    'opsz' 24;
+}
+
+// ---------- Route view transitions ----------
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 160ms;
+  animation-timing-function: ease-out;
+}
+
+// ---------- Reduced motion ----------
+// View transitions are also skipped in app.config.ts; Material animations are disabled
+// via MATERIAL_ANIMATIONS. This catches site CSS transitions and keyframes.
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

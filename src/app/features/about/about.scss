@@ -1,0 +1,96 @@
+:host {
+  display: block;
+}
+
+.bio {
+  // 60ch of Plex Sans renders at roughly 75 characters per line.
+  max-width: 60ch;
+  margin-top: var(--space-5);
+  font-size: 1.0625rem;
+  line-height: 1.65;
+
+  p:last-child {
+    margin-bottom: 0;
+  }
+}
+
+// Log rows: period on the left, the record on the right, hairline between rows.
+.log {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.entry {
+  display: grid;
+  grid-template-columns: 15rem minmax(0, 1fr);
+  gap: var(--space-1) var(--space-6);
+  padding: var(--space-5) var(--space-4);
+  border-bottom: 1px solid var(--mat-sys-outline-variant);
+
+  &:last-child {
+    border-bottom: 0;
+  }
+}
+
+.period {
+  margin: 0;
+  padding-top: 2px;
+  color: var(--mat-sys-on-surface-variant);
+}
+
+.org {
+  margin: var(--space-1) 0 var(--space-3);
+  font-size: var(--site-data-size);
+}
+
+.points {
+  max-width: 66ch;
+  margin: 0;
+  padding-left: 1.125em;
+  list-style: square;
+  font-size: 0.9375rem;
+  line-height: 1.55;
+
+  li + li {
+    margin-top: var(--space-1);
+  }
+
+  li::marker {
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+// Group names are longer than the default kv keys; keep each on one line on wide screens.
+.skills > div {
+  grid-template-columns: 15rem minmax(0, 1fr);
+  column-gap: var(--space-6);
+}
+
+.skills .tag-line {
+  color: var(--mat-sys-on-surface);
+}
+
+.certs {
+  padding-block: 0;
+
+  [matListItemMeta] {
+    color: var(--mat-sys-on-surface-variant);
+  }
+}
+
+@media (max-width: 719.98px) {
+  .entry {
+    grid-template-columns: minmax(0, 1fr);
+    padding-block: var(--space-4);
+  }
+
+  .skills > div {
+    grid-template-columns: minmax(0, 1fr);
+    gap: var(--space-1);
+  }
+
+  .period {
+    padding-top: 0;
+  }
+}

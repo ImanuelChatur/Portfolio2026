@@ -1,77 +1,97 @@
-<section>
-  <h2 class="section-title">about</h2>
-  <div class="bio">
-    <p>
-      I'm a Cyber Security student in Sheridan College's Honours Bachelor of Information Sciences program,
-      focused on where application security meets AI.
-    </p>
-    <p>
-      As an AI researcher at Sheridan I evaluate how large language models behave under different prompts and
-      framing, and I build tooling to test whether AI coding agents can be pushed into writing insecure code.
-      Outside of research I compete in CTFs and build security-first web apps.
-    </p>
-  </div>
-</section>
+<div class="wrap stack">
+  <header class="page-head">
+    <h1>About</h1>
+    <div class="bio">
+      <p>
+        I'm a Cyber Security student in Sheridan College's Honours Bachelor of Information Sciences program,
+        focused on where application security meets AI.
+      </p>
+      <p>
+        As an AI researcher at Sheridan I evaluate how large language models behave under different prompts and
+        framing, and I build tooling to test whether AI coding agents can be pushed into writing insecure code.
+        Outside of research I compete in CTFs and build security-first web apps.
+      </p>
+    </div>
+  </header>
 
-<section>
-  <h2 class="section-title">experience</h2>
-  <ol class="timeline">
-    @for (entry of experience; track entry.role + entry.org) {
-      <li class="card">
-        <div class="timeline-head">
-          <h3>{{ entry.role }}</h3>
-          <span class="mono period">{{ entry.period }}</span>
-        </div>
-        <p class="org">{{ entry.org }} · {{ entry.location }}</p>
-        <ul>
-          @for (point of entry.points; track point) { <li>{{ point }}</li> }
-        </ul>
-      </li>
-    }
-  </ol>
-</section>
-
-<section>
-  <h2 class="section-title">education</h2>
-  <ol class="timeline">
-    @for (entry of education; track entry.role) {
-      <li class="card">
-        <div class="timeline-head">
-          <h3>{{ entry.role }}</h3>
-          <span class="mono period">{{ entry.period }}</span>
-        </div>
-        <p class="org">{{ entry.org }} · {{ entry.location }}</p>
-        <ul>
-          @for (point of entry.points; track point) { <li>{{ point }}</li> }
-        </ul>
-      </li>
-    }
-  </ol>
-</section>
-
-<section>
-  <h2 class="section-title">skills</h2>
-  <div class="skills-grid">
-    @for (group of skillGroups; track group.title) {
-      <div class="card">
-        <h3>{{ group.title }}</h3>
-        <ul class="tags">
-          @for (skill of group.skills; track skill) {
-            <li>{{ skill }}</li>
-          }
-        </ul>
-      </div>
-    }
-  </div>
-</section>
-
-@if (certs.length) {
-  <section>
-    <h2 class="section-title">certifications</h2>
-    <ul class="certs">
-      @for (cert of certs; track cert.name) {
-        <li><span class="mono">{{ cert.year }}</span> {{ cert.name }} — {{ cert.issuer }}</li>
+  <ng-template #log let-entries>
+    <ol class="log">
+      @for (entry of entries; track entry.role + entry.org) {
+        <li class="entry">
+          <p class="period mono">{{ entry.period }}</p>
+          <div class="entry-main">
+            <h3>{{ entry.role }}</h3>
+            <p class="org muted">{{ entry.org }} · {{ entry.location }}</p>
+            <ul class="points">
+              @for (point of entry.points; track point) {
+                <li>{{ point }}</li>
+              }
+            </ul>
+          </div>
+        </li>
       }
-    </ul>
+    </ol>
+  </ng-template>
+
+  <section class="pane" aria-labelledby="experience-title">
+    <header class="pane-head">
+      <h2 id="experience-title">Experience</h2>
+      <span>{{ experience.length }} {{ experience.length === 1 ? 'entry' : 'entries' }}</span>
+    </header>
+    <ng-container *ngTemplateOutlet="log; context: { $implicit: experience }" />
   </section>
-}
+
+  <section class="pane" aria-labelledby="education-title">
+    <header class="pane-head">
+      <h2 id="education-title">Education</h2>
+      <span>{{ education.length }} {{ education.length === 1 ? 'entry' : 'entries' }}</span>
+    </header>
+    <ng-container *ngTemplateOutlet="log; context: { $implicit: education }" />
+  </section>
+
+  <section class="pane" aria-labelledby="skills-title">
+    <header class="pane-head">
+      <h2 id="skills-title">Skills</h2>
+      <span>{{ skillGroups.length }} groups</span>
+    </header>
+    <dl class="kv skills">
+      @for (group of skillGroups; track group.title) {
+        <div>
+          <dt>{{ group.title }}</dt>
+          <dd>
+            <ul class="tag-line">
+              @for (skill of group.skills; track skill) {
+                <li>{{ skill }}</li>
+              }
+            </ul>
+          </dd>
+        </div>
+      }
+    </dl>
+  </section>
+
+  @if (certs.length) {
+    <section class="pane" aria-labelledby="certs-title">
+      <header class="pane-head">
+        <h2 id="certs-title">Certifications</h2>
+        <span>{{ certs.length }}</span>
+      </header>
+      <mat-list class="certs">
+        @for (cert of certs; track cert.name) {
+          <mat-list-item>
+            <span matListItemTitle>{{ cert.name }}</span>
+            <span matListItemLine>{{ cert.issuer }}</span>
+            <span matListItemMeta class="mono">{{ cert.year }}</span>
+          </mat-list-item>
+        }
+      </mat-list>
+    </section>
+  }
+
+  <div class="close">
+    <a matButton="outlined" routerLink="/contact">
+      Get in touch
+      <mat-icon iconPositionEnd aria-hidden="true">arrow_forward</mat-icon>
+    </a>
+  </div>
+</div>

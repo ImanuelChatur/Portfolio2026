@@ -1,0 +1,59 @@
+:host {
+  display: block;
+}
+
+.masthead {
+  padding: 0;
+  border-bottom: 1px solid var(--mat-sys-outline);
+}
+
+.bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-6);
+  width: 100%;
+}
+
+.brand {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  text-decoration: none;
+  color: var(--mat-sys-on-surface);
+}
+
+.brand-name {
+  font-family: var(--site-font-mono);
+  font-size: 1rem;
+  font-weight: 600;
+  letter-spacing: 0;
+}
+
+.at {
+  color: var(--mat-sys-primary);
+}
+
+.nav {
+  font-family: var(--site-font-mono);
+
+  display: flex;
+  align-items: center;
+  gap: var(--space-1);
+
+  ul {
+    display: flex;
+    gap: 2px;
+    list-style: none;
+    margin: 0 var(--space-2) 0 0;
+    padding: 0;
+  }
+}
+
+// Active route: an amber underline under the label.
+.is-active {
+  text-decoration: underline;
+  text-decoration-color: var(--mat-sys-primary);
+  text-decoration-thickness: 2px;
+  text-underline-offset: 0.5em;
+}

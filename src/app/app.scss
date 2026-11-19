@@ -1,0 +1,54 @@
+:host {
+  display: block;
+}
+
+.shell {
+  min-height: 100dvh;
+}
+
+.page {
+  display: flex;
+  flex-direction: column;
+  min-height: 100dvh;
+}
+
+main {
+  flex: 1;
+  // Routes are lazy-loaded: reserve a viewport of height so the footer doesn't render
+  // under the header and then jump down when the page arrives (layout shift).
+  min-height: calc(100dvh - var(--site-header-height));
+
+  &:focus {
+    outline: none;
+  }
+}
+
+.skip-link {
+  position: fixed;
+  left: var(--space-4);
+  top: -64px;
+  z-index: 10;
+  padding: 10px 14px;
+  background: var(--mat-sys-surface-container-lowest);
+  border: 1px solid var(--mat-sys-outline);
+  border-radius: var(--site-radius);
+  text-decoration: none;
+
+  &:focus {
+    top: var(--space-3);
+  }
+}
+
+.drawer {
+  width: min(320px, 86vw);
+  border-left: 1px solid var(--mat-sys-outline);
+}
+
+.drawer-head {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  min-height: 64px;
+  padding: 0 var(--space-2) 0 var(--space-5);
+  border-bottom: 1px solid var(--mat-sys-outline);
+}

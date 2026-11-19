@@ -44,3 +44,12 @@ __screenshots__/
 Thumbs.db
 
 public/content/*/index.json
+
+# Design exploration (local only)
+/design/
+.impeccable/config.local.json
+
+# Vendored design-tool skills (reinstall from skills-lock.json / npx impeccable skills install)
+/.claude/skills/
+/.claude/agents/
+.impeccable/hook.cache.json

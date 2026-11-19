@@ -1,19 +1,54 @@
-<section>
-  <h2 class="section-title">contact</h2>
-  <p class="lead">Open to co-op and internship opportunities, research collaboration, or just talking security.</p>
+<div class="wrap stack contact">
+  <section class="intro" aria-labelledby="contact-title">
+    <h1 id="contact-title">Contact</h1>
+    <p class="lead">
+      Open to co-op and internship opportunities, research collaboration, or just talking security.
+    </p>
+    <a matButton="filled" [href]="mailto">
+      <mat-icon aria-hidden="true">mail</mat-icon>
+      Email me
+    </a>
+  </section>
 
-  <div class="contact-grid">
-    <a class="card contact-item" href="mailto:charliechatur@gmail.com">
-      <span class="label">email</span>
-      <span class="value">charliechatur&#64;gmail.com</span>
-    </a>
-    <a class="card contact-item" href="https://github.com/ImanuelChatur" target="_blank" rel="noopener">
-      <span class="label">github</span>
-      <span class="value">github.com/ImanuelChatur</span>
-    </a>
-    <a class="card contact-item" href="https://linkedin.com/in/imanuel-chatur" target="_blank" rel="noopener">
-      <span class="label">linkedin</span>
-      <span class="value">linkedin.com/in/imanuel-chatur</span>
-    </a>
-  </div>
-</section>
+  <section class="pane" aria-labelledby="channels-title">
+    <header class="pane-head">
+      <h2 id="channels-title">Channels</h2>
+      <span>{{ channels.length }} endpoints</span>
+    </header>
+    <mat-list class="channels" role="list" aria-labelledby="channels-title">
+      @for (channel of channels; track channel.label) {
+        <mat-list-item class="channel" role="listitem">
+          <mat-icon matListItemIcon class="channel-icon" aria-hidden="true">{{ channel.icon }}</mat-icon>
+          <span class="channel-text">
+            <span class="channel-label mono caps muted">{{ channel.label }}</span>
+            @if (channel.external) {
+              <a class="channel-link" [href]="channel.href" target="_blank" rel="noopener"
+                >{{ channel.value }}<span class="visually-hidden"> ({{ channel.label }}, opens in a new tab)</span></a
+              >
+            } @else {
+              <a class="channel-link" [href]="channel.href"
+                >{{ channel.value }}<span class="visually-hidden"> (send an email)</span></a
+              >
+            }
+          </span>
+          <span matListItemMeta class="channel-meta">
+            @if (channel.external) {
+              <mat-icon class="channel-arrow" aria-hidden="true">north_east</mat-icon>
+            } @else {
+              <button
+                matIconButton
+                type="button"
+                class="copy"
+                aria-label="Copy email address"
+                matTooltip="Copy email address"
+                (click)="copyEmail()"
+              >
+                <mat-icon>content_copy</mat-icon>
+              </button>
+            }
+          </span>
+        </mat-list-item>
+      }
+    </mat-list>
+  </section>
+</div>

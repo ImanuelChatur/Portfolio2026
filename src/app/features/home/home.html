@@ -1,59 +1,132 @@
-<section class="hero">
-  <p class="eyebrow">Hi, I'm</p>
-  <h1>Imanuel Chatur</h1>
-  <h2>Cyber Security · AI Security · Application Security</h2>
-  <p class="intro">Cyber Security student at Sheridan College researching how LLMs and AI coding agents behave, and building web apps that are secure by design.</p>
-  <div class="actions">
-    <a routerLink="/about" class="btn btn-primary">About me</a>
-    <a routerLink="/contact" class="btn btn-outline">Get in touch</a>
+<div class="wrap stack">
+  <div class="top">
+    <section class="pane identity" aria-labelledby="hero-title">
+      <div class="identity-body">
+        <h1 id="hero-title">Imanuel Chatur</h1>
+        <p class="lede">AI security first, application security second.</p>
+        <p class="intro">
+          Cyber Security student at Sheridan College researching how LLMs and AI coding agents behave, and
+          building web apps that are secure by design.
+        </p>
+        <p class="status">Open to co-op / internship</p>
+        <div class="actions">
+          <a matButton="filled" routerLink="/contact">Get in touch</a>
+          <a matButton="outlined" routerLink="/about">About</a>
+        </div>
+      </div>
+    </section>
+
+    <section class="pane profile" aria-labelledby="profile-title">
+      <header class="pane-head">
+        <h2 id="profile-title">Profile</h2>
+      </header>
+      <dl class="kv">
+        @for (field of profile; track field.label) {
+          <div>
+            <dt>{{ field.label }}</dt>
+            <dd>
+              {{ field.value }}
+              @if (field.note) {
+                <span class="muted note">{{ field.note }}</span>
+              }
+            </dd>
+          </div>
+        }
+      </dl>
+    </section>
+
+    <section class="pane activity" aria-labelledby="activity-title">
+      <header class="pane-head">
+        <h2 id="activity-title">Activity</h2>
+      </header>
+      <dl class="kv">
+        @for (item of currently; track item.label) {
+          <div>
+            <dt>{{ item.label }}</dt>
+            <dd>{{ item.value }}</dd>
+          </div>
+        }
+      </dl>
+    </section>
   </div>
-</section>
 
-<section class="currently">
-  @for (item of currently; track item.label) {
-    <div>
-      <span class="label">{{ item.label }}</span>
-      <span>{{ item.value }}</span>
-    </div>
-  }
-</section>
+  <mat-card appearance="outlined" class="pane" role="region" aria-labelledby="projects-title">
+    <header class="pane-head">
+      <h2 id="projects-title">Projects</h2>
+      @if (featured().length) {
+        <span>{{ featured().length }} records</span>
+      }
+    </header>
 
-@if (featured().length) {
-  <section>
-    <h2 class="section-title">featured projects</h2>
-    <div class="project-grid">
-      @for (project of featured(); track project.slug) {
-        <article class="card project">
-          <h3>{{ project.title }}</h3>
-          <p>{{ project.summary }}</p>
-          <ul class="tags">
-            @for (tag of project.tags; track tag) { <li>{{ tag }}</li> }
-          </ul>
-          @if (project.repo) {
-            <a [href]="project.repo" target="_blank" rel="noopener">View on GitHub →</a>
+    @if (projects.isLoading()) {
+      <mat-progress-bar mode="indeterminate" aria-label="Loading projects" />
+    } @else if (projects.error()) {
+      <div class="load-error" role="alert">
+        <mat-icon aria-hidden="true">error</mat-icon>
+        <p>The project list did not load. Check your connection and try again.</p>
+        <button matButton="outlined" type="button" (click)="retryProjects()">
+          <mat-icon aria-hidden="true">refresh</mat-icon>
+          Retry
+        </button>
+      </div>
+    } @else {
+      <table class="findings">
+        <caption class="visually-hidden">Featured projects</caption>
+        <thead>
+          <tr class="mono caps muted">
+            <th scope="col">ID</th>
+            <th scope="col">Area</th>
+            <th scope="col">Target</th>
+            <th scope="col">Stack</th>
+            <th scope="col">Date</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (project of featured(); track project.slug) {
+            <!-- TODO(content-handoff): link to /projects/<slug> once project detail pages exist. -->
+            <tr>
+              <th scope="row" class="c-id mono">{{ project.id }}</th>
+              <td class="c-area">
+                @if (project.area; as area) {
+                  <span class="area" [class]="area.cls">{{ area.label }}</span>
+                }
+              </td>
+              <td class="c-target">
+                <h3>{{ project.title }}</h3>
+                <p class="muted">{{ project.summary }}</p>
+              </td>
+              <td class="c-stack">
+                <ul class="tag-line" aria-label="Stack">
+                  @for (tag of project.tags; track tag) {
+                    <li>{{ tag }}</li>
+                  }
+                </ul>
+              </td>
+              <td class="c-date mono">
+                <time [attr.datetime]="project.date">{{ project.date | date: 'yyyy-MM' : 'UTC' }}</time>
+              </td>
+            </tr>
           }
-        </article>
-      }
-    </div>
-  </section>
-}
+        </tbody>
+      </table>
+    }
+  </mat-card>
 
-@if (recentWriteups().length) {
-  <section>
-    <h2 class="section-title">recent writeups</h2>
-    <ul class="writeup-list">
-      @for (w of recentWriteups(); track w.slug) {
-        <li>
-          <span class="date">{{ w.date | date: 'MMM yyyy' : 'UTC' }}</span>
-          <a [routerLink]="['/writeups', w.slug]">{{ w.title }}</a>
-          <span class="writeup-tags">{{ w.tags.join(' · ') }}</span>
-        </li>
-      }
-    </ul>
-  </section>
-}
-
-<section class="cta">
-  <p>Want to work together or talk security?</p>
-  <a routerLink="/contact" class="btn btn-primary">Get in touch</a>
-</section>
+  @if (recentWriteups().length) {
+    <section class="pane" aria-labelledby="writeups-title">
+      <header class="pane-head">
+        <h2 id="writeups-title">Writeups</h2>
+      </header>
+      <!-- TODO(content-handoff): link rows to /writeups/<slug> once writeup detail pages exist. -->
+      <mat-list class="log">
+        @for (w of recentWriteups(); track w.slug) {
+          <mat-list-item lines="2">
+            <span matListItemTitle class="log-title">{{ w.title }}</span>
+            <span matListItemLine>{{ w.summary }}</span>
+            <span matListItemMeta class="mono">{{ w.date | date: 'yyyy-MM' : 'UTC' }}</span>
+          </mat-list-item>
+        }
+      </mat-list>
+    </section>
+  }
+</div>

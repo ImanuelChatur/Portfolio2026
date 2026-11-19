@@ -1,0 +1,197 @@
+// The ONLY place Angular Material is themed. Light and dark both come from color-scheme
+// (system default, or forced by html[data-theme]), so a single theme is emitted and the
+// exact DESIGN.md palette is mapped onto --mat-sys-* with light-dark().
+@use '@angular/material' as mat;
+@use 'theme-colors' as colors;
+
+@mixin apply {
+  html {
+    color-scheme: light dark;
+
+    @include mat.theme(
+      (
+        color: (
+          primary: colors.$primary-palette,
+          tertiary: colors.$tertiary-palette,
+        ),
+        typography: (
+          plain-family: ('IBM Plex Sans', 'Segoe UI', system-ui, sans-serif),
+          brand-family: ('IBM Plex Mono', ui-monospace, 'Cascadia Mono', monospace),
+          bold-weight: 600,
+          medium-weight: 500,
+          regular-weight: 400,
+        ),
+        density: 0,
+      )
+    );
+
+    // Tinted slate neutrals instead of generated grays (DESIGN.md palette).
+    @include mat.theme-overrides(
+      (
+        background: light-dark(#eef1f4, #0b0e12),
+        surface: light-dark(#eef1f4, #0b0e12),
+        surface-bright: light-dark(#fafbfc, #1c232c),
+        surface-dim: light-dark(#dde2e8, #0b0e12),
+        surface-container-lowest: light-dark(#fafbfc, #0e1217),
+        surface-container-low: light-dark(#fafbfc, #11161c),
+        surface-container: light-dark(#e6eaef, #161c24),
+        surface-container-high: light-dark(#dde2e8, #1c232c),
+        surface-container-highest: light-dark(#d3d9e0, #232b35),
+        on-surface: light-dark(#141a21, #d9dfe7),
+        on-surface-variant: light-dark(#4e5a68, #8b97a6),
+        on-background: light-dark(#141a21, #d9dfe7),
+        outline: light-dark(#b8c1cb, #2a333e),
+        outline-variant: light-dark(#d3d9e0, #1e262f),
+        primary: light-dark(#8a5a00, #f0b04a),
+        on-primary: light-dark(#fff8ec, #1a1206),
+        primary-container: light-dark(#f6e3c2, #3a2a0e),
+        on-primary-container: light-dark(#2c1d00, #fbe2b8),
+        inverse-surface: light-dark(#141a21, #d9dfe7),
+        inverse-on-surface: light-dark(#eef1f4, #0b0e12),
+        inverse-primary: light-dark(#f0b04a, #8a5a00),
+        corner-extra-small: 2px,
+        corner-extra-small-top: 2px 2px 0 0,
+        corner-small: 2px,
+        corner-medium: 2px,
+        corner-large: 2px,
+        corner-large-top: 2px 2px 0 0,
+        corner-large-start: 2px 0 0 2px,
+        corner-large-end: 0 2px 2px 0,
+        corner-extra-large: 2px,
+        corner-extra-large-top: 2px 2px 0 0,
+      )
+    );
+
+    // Buttons: filled = amber signal (one per view), outlined = pane outline.
+    @include mat.button-overrides(
+      (
+        filled-container-color: var(--mat-sys-primary),
+        filled-label-text-color: var(--mat-sys-on-primary),
+        filled-container-shape: 2px,
+        filled-container-height: 44px,
+        filled-horizontal-padding: 20px,
+        filled-label-text-weight: 600,
+        outlined-container-shape: 2px,
+        outlined-container-height: 44px,
+        outlined-horizontal-padding: 20px,
+        outlined-outline-color: var(--mat-sys-outline),
+        outlined-label-text-color: var(--mat-sys-on-surface),
+        outlined-label-text-weight: 600,
+        text-container-shape: 2px,
+        text-label-text-color: var(--mat-sys-on-surface),
+        text-label-text-weight: 500,
+        tonal-container-shape: 2px,
+      )
+    );
+
+    @include mat.icon-button-overrides(
+      (
+        container-shape: 2px,
+        icon-color: var(--mat-sys-on-surface),
+      )
+    );
+
+    @include mat.fab-overrides(
+      (
+        small-container-shape: 2px,
+        container-shape: 2px,
+        extended-container-shape: 2px,
+        small-container-color: var(--mat-sys-on-surface),
+        small-foreground-color: var(--mat-sys-surface),
+        container-color: var(--mat-sys-on-surface),
+        foreground-color: var(--mat-sys-surface),
+      )
+    );
+
+    // Panes: outlined panels, no elevation.
+    @include mat.card-overrides(
+      (
+        outlined-container-color: var(--mat-sys-surface-container-low),
+        outlined-outline-color: var(--mat-sys-outline),
+        outlined-container-shape: 2px,
+        outlined-container-elevation: none,
+        title-text-font: var(--site-font-mono),
+        title-text-weight: 500,
+        title-text-size: 0.8125rem,
+        title-text-line-height: 1.4,
+        title-text-tracking: 0.08em,
+        subtitle-text-color: var(--mat-sys-on-surface-variant),
+      )
+    );
+
+    @include mat.toolbar-overrides(
+      (
+        container-background-color: var(--mat-sys-surface),
+        container-text-color: var(--mat-sys-on-surface),
+        standard-height: 64px,
+        mobile-height: 64px,
+      )
+    );
+
+    @include mat.sidenav-overrides(
+      (
+        container-background-color: var(--mat-sys-surface),
+        container-text-color: var(--mat-sys-on-surface),
+        container-shape: 0,
+        content-background-color: var(--mat-sys-surface),
+        content-text-color: var(--mat-sys-on-surface),
+      )
+    );
+
+    @include mat.list-overrides(
+      (
+        active-indicator-shape: 2px,
+        active-indicator-color: var(--mat-sys-surface-container-high),
+        list-item-container-shape: 2px,
+        list-item-label-text-color: var(--mat-sys-on-surface),
+        list-item-supporting-text-color: var(--mat-sys-on-surface-variant),
+        list-item-trailing-supporting-text-color: var(--mat-sys-on-surface-variant),
+        list-item-trailing-supporting-text-font: var(--site-font-mono),
+        list-item-hover-state-layer-color: var(--mat-sys-on-surface),
+      )
+    );
+
+    @include mat.divider-overrides(
+      (
+        color: var(--mat-sys-outline-variant),
+      )
+    );
+
+    @include mat.chips-overrides(
+      (
+        container-shape-radius: 2px,
+        outline-color: var(--mat-sys-outline),
+        label-text-font: var(--site-font-mono),
+      )
+    );
+
+    @include mat.tooltip-overrides(
+      (
+        container-shape: 2px,
+      )
+    );
+
+    @include mat.snack-bar-overrides(
+      (
+        container-shape: 2px,
+      )
+    );
+
+    // Keyboard focus: a visible cyan ring on every Material component.
+    @include mat.strong-focus-indicators(
+      (
+        border-color: var(--site-focus),
+        border-width: 2px,
+        border-radius: 2px,
+      )
+    );
+  }
+
+  html[data-theme='light'] {
+    color-scheme: light;
+  }
+
+  html[data-theme='dark'] {
+    color-scheme: dark;
+  }
+}
