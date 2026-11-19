@@ -1,5 +1,5 @@
 export const CURRENTLY = [
-  { label: 'Studying', value: 'Your current cert or course' },
-  { label: 'Building', value: 'What you are working on' },
-  { label: 'Reading', value: 'A book or paper' }
+  { label: 'Studying', value: 'Honours BISc, Cyber Security @ Sheridan College' },
+  { label: 'Researching', value: 'LLM evaluation and behavioural consistency' },
+  { label: 'Building', value: 'A prompt-injection testbed for AI coding agents' }
 ];

@@ -8,3 +8,11 @@ export interface Cert {
   name: string;
   issuer: string;
 }
+
+export interface TimelineEntry {
+  role: string;
+  org: string;
+  location: string;
+  period: string;
+  points: string[];
+}
